@@ -1,0 +1,66 @@
+{
+  "app": "Simple Meeting Video Editor 1.0.0",
+  "tests": [
+    {
+      "name": "long-opening-strict",
+      "validation": "strict",
+      "retained": [
+        [
+          0,
+          120
+        ]
+      ],
+      "seconds": 120,
+      "packet_payload_hashes_match": 240,
+      "decoded_frame_hashes_match": 240,
+      "planned_audio_samples": 5760000
+    },
+    {
+      "name": "long-opening-forced",
+      "validation": "container",
+      "retained": [
+        [
+          0,
+          120
+        ]
+      ],
+      "seconds": 120,
+      "packet_payload_hashes_match": 240,
+      "decoded_frame_hashes_match": 240,
+      "planned_audio_samples": 5760000
+    },
+    {
+      "name": "long-trial",
+      "validation": "container",
+      "retained": [
+        [
+          0,
+          60
+        ]
+      ],
+      "seconds": 60,
+      "packet_payload_hashes_match": 120,
+      "decoded_frame_hashes_match": 120,
+      "planned_audio_samples": 2880000
+    },
+    {
+      "name": "merged-and-separated-spans",
+      "validation": "strict",
+      "retained": [
+        [
+          0,
+          2
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "seconds": 3,
+      "packet_payload_hashes_match": 45,
+      "decoded_frame_hashes_match": 45,
+      "planned_audio_samples": 144000
+    }
+  ],
+  "scope": "Real video-only MP4 export using the official 0.7.0 bundle and engine. PCM sample counts are planned, not AAC encoded. Browser AAC and the user Zoom file are not tested here."
+}

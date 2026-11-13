@@ -1,0 +1,19 @@
+{
+  "fixture": "44 s, 48 kHz stereo; silence / quiet modulated tones / loud modulated tones / quiet tones / silence",
+  "inputLufs": -13.263876703950258,
+  "outputLufs": -14.02487187516939,
+  "outputPeakDb": -6.7519675846468985,
+  "quietBefore": -39.178017836590094,
+  "loudBefore": -13.157417927398038,
+  "quietAfter": -14.996300629942244,
+  "loudAfter": -12.393416096146664,
+  "globalGainDb": 9.622880286825225,
+  "levelerMinDb": -8.859176182116753,
+  "levelerMaxDb": 14.834663677686944,
+  "independentAacMeasurement": {
+    "encoder": "FFmpeg AAC (not browser AAC)",
+    "audioBitrate": 80000,
+    "integratedLufs": -14.0,
+    "truePeakDbfs": -6.8
+  }
+}

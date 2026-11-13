@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Simple Meeting Video Editor v1.0.0 — 操作マニュアル / User manual</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body><main class="guide">
+<p><a href="index.html">← Simple Meeting Video Editor</a> · <a href="#ja">日本語</a> · <a href="#en" lang="en">English</a></p>
+<h1>Simple Meeting Video Editor</h1>
+<p>v1.0.0 操作マニュアル / User manual</p>
+<section id="ja" lang="ja">
+<h2>日本語</h2>
+<p>会議録画の冒頭・末尾・休憩を取り除き、会話と挿入動画の音量を整えて配布用MP4を作ります。標準の「映像無劣化」は元の圧縮映像を使うため、映像を再圧縮することによる画質低下を避けられます。音声はAACへ再圧縮します。</p>
+<nav aria-label="日本語の目次"><strong>目次</strong><ol>
+<li><a href="#ja-start">起動と画面の見方</a></li><li><a href="#ja-open">動画を開く</a></li><li><a href="#ja-cut">不要な区間を削除する</a></li><li><a href="#ja-boundary">無劣化のカット位置を確認する</a></li><li><a href="#ja-audio">音量を整えて確認する</a></li><li><a href="#ja-trial">短いお試し動画を作る</a></li><li><a href="#ja-export">全体を書き出す・再圧縮を使う</a></li><li><a href="#ja-project">編集を保存・再開する</a></li><li><a href="#ja-keys">ショートカット</a></li><li><a href="#ja-help">困ったとき</a></li>
+</ol></nav>
+<h2 id="ja-start">1. 起動と画面の見方</h2>
+<ol><li>配布ZIPを<strong>すべて展開</strong>します。</li><li><code>simple-meeting-video-editor</code> フォルダー内の <code>index.html</code> をデスクトップ版ChromeまたはEdgeで開きます。</li><li>右上の選択欄で日本語／Englishを切り替えます。</li></ol>
+<p>HTMLだけを移動せず、<code>lib/</code>・JS・CSSも同じ配置で保持してください。インストール、アカウント、ローカルサーバーは不要です。GitHub Pagesで公開された版も同じ操作で使えます。選んだ動画をサーバーへ送信しません。</p>
+<table><thead><tr><th>場所</th><th>役割</th></tr></thead><tbody>
+<tr><td>上部</td><td>MP4を開く、ファイル情報、進捗・中止・保存リンク。ステータス欄はスクロール中も表示します。</td></tr>
+<tr><td>左側</td><td>動画プレビュー、再生操作、波形、シークバー。波形で移動・範囲選択します。</td></tr>
+<tr><td>右側の01</td><td>削除範囲の指定と削除リスト、実際に残る区間の確認。</td></tr>
+<tr><td>右側の02</td><td>音量補正、解析、補正前後の試聴。</td></tr>
+<tr><td>右側の03</td><td>出力方式と音声ビットレート、お試し・全体出力。</td></tr>
+</tbody></table>
+<p>左右のペインは一緒にスクロールします。狭い画面では縦に並びます。</p>
+<h2 id="ja-open">2. 動画を開く</h2>
+<ol><li>「MP4を開く」を押して動画を選びます。プレビュー欄へのドラッグ＆ドロップでも開けます。</li><li>上部のステータスを見ながら、映像無劣化の対応確認と波形の読み込みを待ちます。</li><li>動画名、解像度、長さを確認し、再生して内容を確認します。</li></ol>
+<p>対象は<strong>最長2時間のMP4</strong>、H.264映像1本とAAC音声最大1本です。音声はモノラル／ステレオに対応します。MP4という拡張子でも、別のコーデックや未対応の内部構造は読み込めない場合があります。無音声の動画は映像だけを書き出します。</p>
+<p>開いている元動画は、処理が終わるまで移動・削除・変更しないでください。上部の「中止」で進行中の処理を止められます。</p>
+<h2 id="ja-cut">3. 不要な区間を削除する</h2>
+<h3>波形を使う</h3>
+<ol><li>波形を<strong>クリック</strong>すると、その位置へ移動します。</li><li>不要な部分の先頭から末尾まで<strong>ドラッグ</strong>します。右から左へドラッグしても選択できます。</li><li>右の「開始」「終了」を確認し、<strong>「この区間を削除リストに追加」</strong>を押します。</li><li>ほかの休憩なども同じ手順で追加します。</li></ol>
+<p class="note">ドラッグしただけでは削除は確定しません。必ず削除リストへ追加してください。波形を拡大するには「＋」、縮小は「−」、全体へ戻すには「全体」を使います。拡大中は表示範囲のスライダーで移動できます。</p>
+<h3>時刻や現在位置を使う</h3>
+<p>「開始」「終了」へ時刻を直接入力するか、希望する再生位置で各「現在位置を指定」を押します。時刻は <code>00:01:23.500</code> のような形式、または秒数で入力できます。</p>
+<ul><li><strong>冒頭を削除：</strong>「先頭」へ移動して開始を指定し、残したい場面の始まりで終了を指定して追加します。</li><li><strong>末尾を削除：</strong>不要になる位置で開始を指定し、「末尾」へ移動して終了を指定して追加します。</li><li><strong>削除を取り消す：</strong>リストの「×」でその範囲を戻します。「元に戻す」で直前のリスト変更を戻せます。</li></ul>
+<p>重なる削除範囲は統合します。残す区間を元の順序でつないで出力し、元動画そのものは変更しません。「削除区間をスキップ」をONにすると、プレビュー再生でも削除部分を飛ばします。境界で短く止まる場合があります。</p>
+<h2 id="ja-boundary">4. 無劣化のカット位置を確認する</h2>
+<p>映像無劣化では、独立して再生を始められるキーフレームに合わせます。<strong>残す区間の開始は前へ、終了は後へ広げる</strong>ため、指定より動画が長く残る方向になります。</p>
+<p>例えば、冒頭70秒を削除したくても直前の境界が60秒なら、削除は60秒までとなり、60〜70秒も残ります。短い削除範囲は丸ごと残ることがあります。</p>
+<ol><li>「実際に残る区間を確認」を開きます。</li><li>「指定」と「実際に残す」の時刻、および指定より多く残す秒数を比較します。</li><li>指定位置で切ることを優先したい場合は、出力方式を「再圧縮」に切り替えます。</li></ol>
+<p>波形の削除網掛け、完成時間、削除スキップ、音量解析、出力は<strong>実際に確定した区間</strong>に合わせます。削除リストには元の指定を保持するため、両者の時刻が異なることがあります。</p>
+<h2 id="ja-audio">5. 音量を整えて確認する</h2>
+<ol><li>音量の自動調整をONにします。</li><li>小さい会話と大きい挿入動画が混在する場合は、<strong>レベリングをON</strong>にします。標準はONです。</li><li>目標を −14／−13／−12 LUFSから選びます。まずは標準の−14 LUFSで確認できます。</li><li>「解析して補正後の波形を表示」を押します。残す部分全体を測定するため、長い動画では時間がかかります。</li><li>確認したい位置へ移動し、「補正前を試聴」「補正後を試聴」で前後を比較します。</li></ol>
+<table><thead><tr><th>機能</th><th>役割</th></tr></thead><tbody>
+<tr><td>レベリング</td><td>数秒単位の音量差を、ゆっくり変化する補正で緩和します。会話と挿入動画の差を整える前段処理です。</td></tr>
+<tr><td>目標ラウドネス</td><td>レベリング後の全体音量を目標へ近づけ、飛び出すピークをリミッターで抑えます。</td></tr>
+<tr><td>自動調整OFF</td><td>レベリングと自動音量補正を行いません。音声のAAC再圧縮は行います。</td></tr>
+</tbody></table>
+<p class="note"><strong>通常の動画プレビューは元の音声です。</strong>補正後の音声は「補正後を試聴」またはお試し出力で確認してください。音声試聴は現在位置付近から最大10秒です。「試聴音量」は動画プレビューの音量で、出力音量を変更しません。</p>
+<p>波形は補正前・後で同じ縦目盛りを使います。表示だけをモノラルにまとめ、元のステレオ音声はステレオで保持します。設定や削除区間を変更した後は再解析が必要です。未解析のまま出力を押した場合は、先に全体を解析します。</p>
+<p>レベリングは話者識別やノイズ除去ではなく、小さい声を持ち上げると背景音も上がります。無音や極端に小さい音は自動で強く持ち上げません。目標音量へ届かない場合もあります。表示LUFSはAAC圧縮前の値です。リミッターはPCMピークを抑えますが、厳密なTrue Peak上限を保証する方式ではありません。</p>
+<h2 id="ja-trial">6. 短いお試し動画を作る</h2>
+<ol><li>確認したい場面へ、波形のクリックなどで移動します。</li><li>出力方式と音声ビットレートを選びます。</li><li>お試し出力ボタンの近くに表示される範囲・秒数を確認し、ボタンを押します。</li><li>保存したMP4を再生し、画質・音量・カット境界を確認します。</li></ol>
+<p><strong>映像無劣化：</strong>現在位置から削除部分を飛ばした内容を最大30秒選び、その開始を前・終了を後のキーフレームまで広げます。<strong>実際の長さは30秒を超える場合があります。</strong>例えば境界が0秒・60秒にあり、1秒位置から試すと0〜60秒を出力します。全体出力で残す範囲は越えません。</p>
+<p><strong>再圧縮：</strong>現在位置から最大30秒です。実際の削除区間内から試した場合は次の保持区間へ進み、末尾まで30秒ない場合は残りを対象とします。</p>
+<p>お試しでも<strong>全体出力と同じ音量補正</strong>を使います。抜粋だけを目標LUFSへ合わせ直しません。初回は全体解析のため、短い出力でも準備に時間がかかります。先頭のリミッター状態や短い音声フェードにより、本番と先頭付近がわずかに異なる場合があります。出力名には <code>_trial_開始時刻</code> が入り、削除リストは変わりません。</p>
+<h2 id="ja-export">7. 全体を書き出す・再圧縮を使う</h2>
+<h3>映像無劣化で書き出す（標準）</h3>
+<ol><li>出力方式を「映像無劣化（推奨）」にします。</li><li>音声ビットレートを選びます。標準は80 kbps、選択範囲は32〜256 kbpsです。音声がない場合は変更できません。</li><li>「MP4を書き出す」を押し、保存先の選択画面が出たら名前と場所を選びます。</li><li>上部のステータスが完了になるまで待ちます。直接保存に対応しない場合は、完了後に上部の「MP4を保存」からダウンロードします。</li></ol>
+<p>このモードでは解像度・画質・映像ビットレート・フレームレートの設定を<strong>表示しません</strong>。元の映像をそのまま使うためです。完成容量は残す場面と音声設定で変わり、表示容量は目安です。</p>
+<h3>再圧縮を使う場合</h3>
+<p>出力方式を「再圧縮」にすると、次の映像設定が現れます。方式を切り替えても設定値は保持します。</p>
+<table><thead><tr><th>設定</th><th>内容</th></tr></thead><tbody>
+<tr><td>解像度</td><td>元の解像度／1080p／720p。縦横比を保持し、元より拡大しません。</td></tr>
+<tr><td>画質</td><td>ビットレート指定／高画質／標準／容量優先。</td></tr>
+<tr><td>映像ビットレート</td><td>指定モードでは25〜50,000 kbps。標準250 kbps。低くすると容量と画質が下がります。</td></tr>
+<tr><td>元の容量に近いビットレートにする</td><td>元動画の平均総ビットレートから音声分を引いて映像へ設定する目安。容量や画質の一致は保証しません。</td></tr>
+<tr><td>フレームレート</td><td>10／15／25／30 fps。標準25 fps。</td></tr>
+</tbody></table>
+<p>Zoomのような低ビットレート録画は、同じ数値で再圧縮しても同じ画質になるとは限りません。画質を保ちたい場合は映像無劣化を使います。</p>
+<p>直接保存では出力全体をメモリへ貯めずに書き込みます。代替のメモリ保存は256 MiBまでです。処理中はタブを閉じず、完了後に先頭・カット境界・末尾を再生確認してから配布してください。</p>
+<h2 id="ja-project">8. 編集を保存・再開する</h2>
+<ol><li>上部の「編集設定を保存」で <code>.smve.json</code> を保存します。</li><li>再開時は先に<strong>同じ元動画</strong>を開きます。</li><li>「編集設定を開く」でJSONを選びます。元動画の名前・サイズを照合します。</li><li>削除区間と設定を確認し、必要に応じて再解析します。</li></ol>
+<p>JSONには削除区間と出力設定を保存します。動画・波形・解析済み音声は含みません。元動画も別に保管してください。ページを閉じるだけでは編集内容は自動保存されません。</p>
+<p>旧Meeting Cutの設定も読み込めます。旧schema 1／2の設定は従来の再圧縮モードで開くため、必要なら映像無劣化へ切り替えてください。schema 1ではレベリングOFFを引き継ぎます。警告付きコピーの承認はJSONへ保存しません。</p>
+<h2 id="ja-keys">9. ショートカット</h2>
+<table><thead><tr><th>キー</th><th>操作</th></tr></thead><tbody>
+<tr><td>Space</td><td>再生／一時停止</td></tr><tr><td>I / O</td><td>現在位置を削除範囲の開始／終了に指定</td></tr><tr><td>← / →</td><td>前後へコマ送り</td></tr><tr><td>Home / End</td><td>元動画の先頭／末尾へ移動</td></tr><tr><td>Ctrl+Z（Macは⌘Z）</td><td>削除リストの直前の変更を元に戻す</td></tr>
+</tbody></table><p>時刻入力や選択欄を操作中は、入力欄自身のキー操作を優先します。</p>
+<h2 id="ja-help">10. 困ったとき</h2>
+<table><thead><tr><th>症状</th><th>確認すること</th></tr></thead><tbody>
+<tr><td>起動しない／ライブラリが見つからない</td><td>ZIPを全体展開し、<code>lib/browser-media-io.js</code> があることを確認します。デスクトップChrome/Edgeで開き直します。</td></tr>
+<tr><td>指定した部分が残る</td><td>映像無劣化のキーフレーム補正です。「実際に残る区間」を確認し、指定位置を優先するなら再圧縮を選びます。</td></tr>
+<tr><td>波形は変わったのにプレビューの音が変わらない</td><td>動画プレビューは元音声です。「補正後を試聴」またはお試しMP4で確認します。</td></tr>
+<tr><td>AAC出力に失敗する</td><td>Chrome/Edgeと音声ビットレートを確認し、まずお試し出力で再確認します。<a href="tests/browser-check.html">ブラウザ確認ページ</a>でも合成動画を使って確認できます。</td></tr>
+<tr><td>容量上限で保存できない</td><td>画面上部の保存方式を確認します。メモリ保存の上限は256 MiBです。直接保存対応の環境を使用します。</td></tr>
+<tr><td>途中で中止した</td><td>完了を待ってから再操作します。波形が未完了なら解析ボタンで全体を読み直せます。</td></tr>
+<tr><td>動画が開けない</td><td>最長2時間、MP4内のH.264映像とAAC音声、トラック数などの対応条件を確認します。</td></tr>
+</tbody></table>
+<h3>無劣化の構造検査で止まる場合</h3>
+<p>「停止理由・検査結果の詳細」を開きます。公式ライブラリが継続可能と判定した場合だけ、注意点を承認して「警告を承知でコピーを試す」を選択できます。カット付近の映像の乱れ・欠落・停止や音ズレが起きる可能性があるため、まずお試し出力を確認します。元動画は変更しません。</p>
+<p>警告付きコピーでは警告を表示し、出力名に <code>_forced</code> が付きます。「通常の検査に戻す」で解除できます。別の動画を開くと通常モードへ戻ります。選択肢が出ない形式・時刻などの不正は強行できません。再圧縮への切り替えも選択できます。</p>
+<p>この版の検証範囲は同梱の <code>VALIDATION.md</code> に記録しています。入力ファイルとブラウザ環境によって結果は異なります。</p>
+<p><a href="#ja">日本語の目次へ</a> · <a href="index.html">アプリへ戻る</a></p>
+</section>
+<hr>
+<section id="en" lang="en">
+<h2>English user manual</h2>
+<p>Remove unwanted openings, endings and breaks from meeting MP4s, balance quiet speech against louder inserts, and export a shareable MP4. The default Video copy mode preserves the original compressed video. Audio is processed and re-encoded to AAC.</p>
+<nav aria-label="English contents"><strong>Contents</strong><ol>
+<li><a href="#en-start">Start and screen layout</a></li><li><a href="#en-open">Open a recording</a></li><li><a href="#en-cut">Remove sections</a></li><li><a href="#en-boundary">Review keyframe alignment</a></li><li><a href="#en-audio">Adjust and check audio</a></li><li><a href="#en-trial">Export a sample</a></li><li><a href="#en-export">Export the full video or re-encode</a></li><li><a href="#en-project">Save and resume edits</a></li><li><a href="#en-keys">Keyboard shortcuts</a></li><li><a href="#en-help">Troubleshooting</a></li>
+</ol></nav>
+<h2 id="en-start">1. Start and screen layout</h2>
+<ol><li>Extract the <strong>entire ZIP</strong>.</li><li>Open <code>simple-meeting-video-editor/index.html</code> in desktop Chrome or Edge.</li><li>Select Japanese or English at the top right.</li></ol>
+<p>Keep the HTML, JavaScript, CSS and <code>lib/</code> folder in their original layout. No installation, account or local server is required. A GitHub Pages copy works the same way. Selected recordings are not uploaded.</p>
+<table><thead><tr><th>Area</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Top</td><td>Open a file, view source details, progress, Cancel and the save link. The status area remains visible while scrolling.</td></tr><tr><td>Left</td><td>Video preview, playback controls, waveform and seek bar.</td></tr><tr><td>Right: 01</td><td>Removal selection, removal list and actual retained ranges.</td></tr><tr><td>Right: 02</td><td>Audio processing, analysis and before/after auditions.</td></tr><tr><td>Right: 03</td><td>Output mode, audio bitrate, sample export and full export.</td></tr>
+</tbody></table><p>The preview and settings scroll together. Narrow screens stack the panels vertically.</p>
+<h2 id="en-open">2. Open a recording</h2>
+<ol><li>Click Open MP4, or drop the file onto the video preview.</li><li>Wait for copy validation and waveform loading; watch the top status.</li><li>Check the filename, dimensions and duration, then play the source.</li></ol>
+<p>Supported input is an MP4 up to two hours long, with one H.264 video track and up to one mono/stereo AAC track. The MP4 extension alone does not guarantee compatible codecs or structure. Videos without audio produce video-only output.</p>
+<p>Keep the source file unchanged and available until processing finishes. Use Cancel at the top to stop an active operation.</p>
+<h2 id="en-cut">3. Remove sections</h2>
+<ol><li><strong>Click</strong> the waveform to seek.</li><li><strong>Drag</strong> across an unwanted section, in either direction.</li><li>Review the In/Out times and click <strong>Add to removals</strong>.</li><li>Repeat for other breaks or unwanted sections.</li></ol>
+<p class="note">Dragging selects a range; it does not commit a removal. Add it to the list to confirm. Use +/− to zoom, the view-range slider to pan, and Fit to restore the full view.</p>
+<p>You can also type times such as <code>00:01:23.500</code> or seconds into In/Out, or set either boundary from the current playhead.</p>
+<ul><li><strong>Trim the opening:</strong> go to Start and set In, move to the desired opening and set Out, then add the removal.</li><li><strong>Trim the ending:</strong> set In where unwanted content starts, go to End and set Out, then add the removal.</li><li><strong>Restore a section:</strong> click its × in the list. Undo restores the previous removal-list change.</li></ul>
+<p>Overlapping removals are merged. Output joins retained sections in their original order; the source is unchanged. Enable Skip removals to skip actual removed sections during preview. Preview may pause briefly at a boundary.</p>
+<h2 id="en-boundary">4. Review keyframe alignment</h2>
+<p>Video copy aligns cuts to keyframe boundaries. <strong>Retained starts expand backward and ends forward</strong>, preserving more content than requested. Short removals can disappear entirely.</p>
+<p>For example, if you request removal of the first 70 seconds but the previous boundary is at 60 seconds, seconds 60–70 also remain.</p>
+<ol><li>Expand Review actual retained ranges.</li><li>Compare Requested and Retained times and the extra retained duration.</li><li>Choose Re-encode when cutting at the requested positions matters more than preserving the compressed video.</li></ol>
+<p>Waveform hatching, output duration, preview skipping, audio analysis and export follow the <strong>confirmed ranges</strong>. The removal list preserves your original requests, so its times can differ from the effective cuts.</p>
+<h2 id="en-audio">5. Adjust and check audio</h2>
+<ol><li>Enable automatic audio adjustment.</li><li>Leave <strong>leveling ON</strong> when quiet speech and loud inserted videos differ substantially. It is enabled by default.</li><li>Choose −14, −13 or −12 LUFS. Start with the default −14 LUFS if unsure.</li><li>Analyze to display the corrected waveform. It measures all retained audio, so long recordings take time.</li><li>Seek to a useful comparison point and use the before/after audition buttons.</li></ol>
+<table><thead><tr><th>Control</th><th>Effect</th></tr></thead><tbody>
+<tr><td>Leveling</td><td>A slowly changing gain reduces differences over several seconds before global loudness correction.</td></tr><tr><td>Loudness target</td><td>Brings the leveled program toward the target, with a limiter controlling occasional peaks.</td></tr><tr><td>Automatic adjustment OFF</td><td>Disables leveling and automatic loudness processing. AAC re-encoding still occurs.</td></tr>
+</tbody></table>
+<p class="note"><strong>The video preview plays original audio.</strong> Use the after audition or an exported sample to hear processing. Auditions cover up to ten seconds near the playhead. The monitor-volume slider controls video preview volume, not exported loudness.</p>
+<p>Before/after waveforms use the same vertical scale. Only the waveform display combines channels; stereo audio remains stereo. Changing edits or audio settings invalidates analysis. Export analyzes first when necessary.</p>
+<p>Leveling neither identifies speakers nor removes noise. Raising quiet speech also raises background noise; silence and extremely quiet material are gated. The target may not be reached. Displayed LUFS is measured before AAC encoding. The limiter controls PCM peaks but does not guarantee a certified true-peak ceiling.</p>
+<h2 id="en-trial">6. Export a sample</h2>
+<ol><li>Seek to the scene you want to check.</li><li>Choose output mode and audio bitrate.</li><li>Review the range and duration near the sample button, then export.</li><li>Play the saved MP4 to check quality, loudness and boundaries.</li></ol>
+<p><strong>Video copy:</strong> selects up to 30 retained seconds from the playhead, then expands to surrounding keyframes. <strong>The actual sample can exceed 30 seconds.</strong> With boundaries at 0 and 60 seconds, a sample from 1 second exports 0–60 seconds. Expansion stays within the full export's retained ranges.</p>
+<p><strong>Re-encode:</strong> exports up to 30 seconds from the playhead. A playhead inside an actual removal advances to the next retained section; near the end, only the remaining content is selected.</p>
+<p>Samples use the <strong>full program's audio correction</strong>; the excerpt is not independently normalized. First-time preparation may therefore analyze the entire recording. Short boundary fades and limiter restart can slightly change the opening compared with the full output. Sample filenames include <code>_trial_start-time</code>. The removal list is unchanged.</p>
+<h2 id="en-export">7. Export the full video or re-encode</h2>
+<h3>Video copy (default)</h3>
+<ol><li>Select Video copy (recommended).</li><li>Choose audio bitrate: 80 kbps by default, with choices from 32 to 256 kbps. This control is disabled for silent videos.</li><li>Click Export MP4 and choose a filename and location if a save dialog appears.</li><li>Wait for completion at the top. When direct saving is unavailable, use the top save link after processing to download the MP4.</li></ol>
+<p>Resolution, quality, video bitrate and frame-rate controls are <strong>hidden</strong> in this mode because the original video is copied. Output size depends on retained content and audio settings; the estimate is approximate.</p>
+<h3>Re-encode</h3>
+<p>Selecting Re-encode reveals these controls. Switching modes preserves their values.</p>
+<table><thead><tr><th>Setting</th><th>Options</th></tr></thead><tbody>
+<tr><td>Resolution</td><td>Original, 1080p or 720p. Aspect ratio is preserved and no upscaling occurs.</td></tr><tr><td>Quality</td><td>Custom bitrate, high, standard or small-file preset.</td></tr><tr><td>Video bitrate</td><td>25–50,000 kbps in custom mode; default 250 kbps. Lower rates reduce size and quality.</td></tr><tr><td>Source-size helper</td><td>Estimates video bitrate from the source average total rate minus selected audio rate. Equal size or quality is not guaranteed.</td></tr><tr><td>Frame rate</td><td>10, 15, 25 or 30 fps; default 25 fps.</td></tr>
+</tbody></table>
+<p>Re-encoding a low-bitrate Zoom recording at its original rate may substantially reduce quality. Use Video copy when preserving quality is the priority.</p>
+<p>Direct saving streams output to disk. The alternative in-memory download is limited to 256 MiB. Keep the tab open until completion, then check the opening, cut boundaries and ending before distributing the result.</p>
+<h2 id="en-project">8. Save and resume edits</h2>
+<ol><li>Use Save edit settings to save a <code>.smve.json</code> file.</li><li>To resume, open the <strong>same source video</strong> first.</li><li>Load its edit settings. The source filename and size are checked.</li><li>Review the restored removals and settings; analyze again as needed.</li></ol>
+<p>JSON stores removals and output settings, not the video, waveform or analyzed audio. Keep the source separately. Closing the page does not automatically save edits.</p>
+<p>Older Meeting Cut projects remain readable. Schema 1/2 projects open in re-encode mode to preserve prior behavior; switch modes explicitly if desired. Schema 1 preserves leveling OFF. Acknowledgement of warning-based copying is never saved in JSON.</p>
+<h2 id="en-keys">9. Keyboard shortcuts</h2>
+<table><thead><tr><th>Key</th><th>Action</th></tr></thead><tbody>
+<tr><td>Space</td><td>Play/pause</td></tr><tr><td>I / O</td><td>Set the removal's In/Out to the playhead</td></tr><tr><td>← / →</td><td>Step backward/forward</td></tr><tr><td>Home / End</td><td>Go to the source start/end</td></tr><tr><td>Ctrl+Z (⌘Z on Mac)</td><td>Undo the previous removal-list change</td></tr>
+</tbody></table><p>When editing a text field or selection, its normal keyboard behavior takes priority.</p>
+<h2 id="en-help">10. Troubleshooting</h2>
+<table><thead><tr><th>Symptom</th><th>Action</th></tr></thead><tbody>
+<tr><td>App does not start / library missing</td><td>Extract the entire ZIP and check that <code>lib/browser-media-io.js</code> is present. Open in desktop Chrome/Edge.</td></tr><tr><td>Requested content remains</td><td>Review actual retained ranges. This is keyframe alignment; use re-encode for cuts at the requested positions.</td></tr><tr><td>Preview audio sounds unchanged</td><td>Video preview plays the original. Use the after audition or an exported sample.</td></tr><tr><td>AAC export fails</td><td>Check Chrome/Edge and the selected audio bitrate, then try a sample. The <a href="tests/browser-check.html">browser check page</a> tests a synthetic clip.</td></tr><tr><td>Output exceeds the save limit</td><td>Check the top save-mode indicator. In-memory saving is limited to 256 MiB; use an environment supporting direct-to-file saving.</td></tr><tr><td>Loading was cancelled</td><td>Wait for cancellation to finish. Analyze can reload an incomplete waveform.</td></tr><tr><td>Input is rejected</td><td>Check the two-hour limit, H.264/AAC codecs and supported track counts.</td></tr>
+</tbody></table>
+<h3>Copy validation rejects the structure</h3>
+<p>Open the detailed reason. Only when the official library marks the problem as recoverable can you acknowledge the warning and try copying. Cuts may show corruption, missing frames, freezes or audio drift, so inspect a sample first. The original file is unchanged.</p>
+<p>Warning-based copying keeps a warning visible and adds <code>_forced</code> to output names. Return to strict validation to reset it; opening another file also resets it. Essential format/timestamp failures cannot be forced. Re-encoding is another option.</p>
+<p>See the bundled <code>VALIDATION.md</code> for the completed test scope. Results depend on the input and browser environment.</p>
+<p><a href="#en">English contents</a> · <a href="index.html">Back to app</a></p>
+</section>
+<footer><span>Simple Meeting Video Editor v1.0.0 · © 2026 cityedge</span><a href="index.html">アプリ / App</a></footer>
+</main></body></html>

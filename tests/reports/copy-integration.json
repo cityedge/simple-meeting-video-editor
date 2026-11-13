@@ -1,0 +1,57 @@
+{
+  "app": "Meeting Cut 0.3.0",
+  "library": "Browser Media I/O 0.6.0",
+  "runtime": "Node VM, real bundle + MeetingEngine.exportCopy; no VideoEncoder/VideoDecoder",
+  "input": "synthetic 16 s H.264 closed GOP, B frames, 640x360 30fps",
+  "ranges": [
+    {
+      "requestedStart": 0.2,
+      "requestedEnd": 4.2,
+      "sourceStart": 2,
+      "sourceEnd": 4,
+      "startAdjustment": 1.8,
+      "endAdjustment": -0.20000000000000018,
+      "startBoundaryId": "idr:60",
+      "endBoundaryId": "idr:120",
+      "outputStart": 0,
+      "outputEnd": 2,
+      "audioStartSample": 0,
+      "audioEndSample": 96000,
+      "audioSamples": 96000
+    },
+    {
+      "requestedStart": 6,
+      "requestedEnd": 16,
+      "sourceStart": 6,
+      "sourceEnd": 16,
+      "startAdjustment": 0,
+      "endAdjustment": 0,
+      "startBoundaryId": "idr:180",
+      "endBoundaryId": "eof",
+      "outputStart": 2,
+      "outputEnd": 12,
+      "audioStartSample": 96000,
+      "audioEndSample": 576000,
+      "audioSamples": 480000
+    }
+  ],
+  "result": {
+    "videoMode": "copy",
+    "duration": 12,
+    "bytes": 691384,
+    "videoBytes": 686229,
+    "videoPackets": 360
+  },
+  "packetPayloadHashesMatch": 360,
+  "decodedFrameHashesMatch": 360,
+  "timestampsMatch": true,
+  "dtsMonotonic": true,
+  "checks": [
+    "application stream and Blob output identical",
+    "cancel aborts stream, releases lock, same session can retry",
+    "unsnapped strict boundary",
+    "empty after snapping",
+    "cloned plan"
+  ],
+  "audio": "No audio in this actual mux test. Audio processing tested separately with mocked I/O; actual browser AAC pending."
+}

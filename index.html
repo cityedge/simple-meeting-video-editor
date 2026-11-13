@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' file: blob: data:; script-src 'self' file: blob: 'wasm-unsafe-eval'; style-src 'self' file:; img-src 'self' file: data: blob:; media-src 'self' file: blob: data:; worker-src 'self' file: blob:; connect-src 'none'; object-src 'none'; base-uri 'none'">
+  <title>Simple Meeting Video Editor</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brand-icon" aria-hidden="true">✂</span><div><strong>Simple Meeting Video Editor</strong><small data-i18n="tagline">会議録画を、見やすく、聞きやすく。</small></div><span class="version">v1.0.0</span></div>
+  <div class="header-actions"><button id="load-project" data-i18n="loadProject">編集設定を開く</button><button id="save-project" data-i18n="saveProject" disabled>編集設定を保存</button><label class="language"><span class="sr-only" data-i18n="language">言語</span><select id="language"><option value="ja">日本語</option><option value="en">English</option></select></label></div>
+</header>
+<main>
+  <section class="source-bar" id="source-bar">
+    <label class="primary file-button"><input id="file" type="file" accept="video/mp4,.mp4"><span data-i18n="openVideo">＋ MP4を開く</span></label>
+    <div class="file-summary"><strong id="filename" data-i18n="noFile">動画を選択してください</strong><span id="filemeta" data-i18n="localOnly">端末内で処理 · アップロードなし · 最長2時間</span><span id="save-mode" class="badge"></span></div>
+  <section id="activity" class="activity" aria-live="polite"><div class="activity-top"><strong id="status" data-i18n="readyEmpty">MP4を開くと編集を始められます。</strong><button id="cancel" class="danger" data-i18n="cancel" hidden>中止</button></div><progress id="progress" value="0" max="1" hidden></progress><p id="detail"></p><p id="error" role="alert" hidden></p><a id="download" class="download" hidden data-i18n="download">MP4を保存</a></section>
+  </section>
+  <div class="workspace">
+    <section class="preview-panel panel">
+      <div class="panel-heading"><span data-i18n="preview">プレビュー</span><label class="check"><input id="skip-cuts" type="checkbox" checked><span data-i18n="skipCuts">削除区間をスキップ</span></label></div>
+      <div class="video-wrap" id="dropzone">
+        <video id="video" preload="metadata" playsinline></video>
+        <div id="empty" class="empty"><div class="empty-icon" aria-hidden="true">▸</div><h1 data-i18n="emptyTitle">必要なところだけ、聞きやすく。</h1><p data-i18n="emptyText">MP4を開くか、ここにドロップしてください。</p><span data-i18n="emptyHint">前後の余白や休憩をカットして、1本の動画に。</span></div>
+      </div>
+      <div class="transport">
+        <div class="transport-buttons"><button id="go-start" data-i18n="goStart" disabled>先頭</button><button id="step-back" data-title="previousFrame" aria-label="前のフレーム" disabled>│◂</button><button id="play" class="play" disabled data-i18n="play">▶ 再生</button><button id="step-next" data-title="nextFrame" aria-label="次のフレーム" disabled>▸│</button><button id="go-end" data-i18n="goEnd" disabled>末尾</button></div>
+        <div class="timecode"><span id="current-time">00:00:00.000</span><span class="muted"> / </span><span id="duration-time" class="muted">00:00:00.000</span></div>
+        <label class="volume"><span data-i18n="monitor">試聴音量</span><input id="volume" type="range" min="0" max="1" step="0.01" value="1" aria-label="試聴音量"></label>
+      </div>
+      <div class="wave-toolbar"><div class="legend"><span class="dot raw"></span><span data-i18n="before">補正前</span><span class="dot processed"></span><span data-i18n="after">補正後</span><span class="dot deleted"></span><span data-i18n="deleted">削除</span></div><div class="zoom-tools"><button id="zoom-out" data-title="zoomOut">−</button><span id="zoom-label">1×</span><button id="zoom-in" data-title="zoomIn">＋</button><button id="zoom-fit" data-i18n="fit">全体</button></div></div>
+      <div class="wave-wrap"><canvas id="wave" aria-label="音声波形。クリックでシーク、ドラッグで範囲選択"></canvas><span id="wave-message" data-i18n="waveEmpty">音声波形はここに表示されます</span></div>
+      <div class="seek-wrap"><input id="seek" type="range" min="0" max="1" value="0" step="0.001" disabled aria-label="再生位置"><div class="ruler"><span id="view-start">00:00:00</span><span id="view-end">00:00:00</span></div></div>
+      <label class="pan-control" id="pan-control" hidden><span data-i18n="viewRange">表示範囲</span><input id="pan" type="range" min="0" max="1" step="0.001" value="0"></label>
+      <p class="wave-help" data-i18n="waveHelp">クリックで移動 · ドラッグで範囲選択 →「削除リストに追加」で確定</p><div class="preview-foot"><span data-i18n="keyboard">Space 再生 / 停止 · I 開始 · O 終了 · ← → コマ送り</span><span data-i18n="waveScale">波形：±1.0固定 / 表示のみモノラル</span></div>
+    </section>
+    <aside>
+      <section class="panel edit-panel">
+        <div class="panel-heading"><span><b class="step">01</b><span data-i18n="cutTitle">不要な区間をカット</span></span><button id="undo" class="text-button" data-i18n="undo" disabled>元に戻す</button></div>
+        <div class="range-inputs"><label><span data-i18n="start">開始</span><input id="cut-start" value="00:00:00.000" inputmode="decimal" disabled><button id="mark-start" data-i18n="useCurrent" disabled>現在位置を指定</button></label><label><span data-i18n="end">終了</span><input id="cut-end" value="00:00:00.000" inputmode="decimal" disabled><button id="mark-end" data-i18n="useCurrent" disabled>現在位置を指定</button></label></div>
+        <button id="add-cut" class="danger full" data-i18n="addCut" disabled>この区間を削除リストに追加</button>
+        <div id="cuts" class="cuts"><p class="muted" data-i18n="noCuts">削除区間はありません</p></div>
+        <div id="copy-notice" class="copy-notice" aria-live="polite"></div>
+        <div id="copy-actions" hidden><button id="retry-copy" class="secondary" data-i18n="retryCopy">再確認</button> <button id="use-encode" class="text-button" data-i18n="useEncode">再圧縮に切り替える</button></div>
+        <div id="force-copy-choice" class="force-copy-box" hidden><p data-i18n="forceWarning">MP4のキーフレーム情報を使ってコピーを試せます。カット付近の映像の乱れ・欠落・停止や音ズレが生じる可能性があります。元動画は変更しません。</p><label class="check"><input id="force-copy-ack" type="checkbox"><span data-i18n="forceAck">注意点を理解し、出力を再生確認します</span></label><button id="force-copy" class="danger full" data-i18n="forceCopy" disabled>警告を承知でコピーを試す</button></div>
+        <div id="force-copy-active" class="force-copy-box" hidden><p data-i18n="forceActive">構造の保証なしでコピーするモードです。まずお試し出力で映像と音声を確認してください。</p><button id="strict-copy" class="text-button" data-i18n="strictCopy">通常の検査に戻す</button></div>
+        <details id="copy-diagnostics" hidden><summary data-i18n="copyDiagnostics">停止理由・検査結果の詳細</summary><pre id="copy-diagnostic-text"></pre></details>
+        <details id="copy-details" hidden><summary data-i18n="confirmedRanges">実際に残る区間を確認</summary><div id="copy-ranges"></div></details>
+        <div class="duration-summary"><div><span data-i18n="removedTime">削除</span><strong id="removed">00:00:00</strong></div><div><span data-i18n="outputTime">完成動画</span><strong id="output-duration">00:00:00</strong></div></div>
+      </section>
+      <section class="panel audio-panel">
+        <div class="panel-heading"><span><b class="step">02</b><span data-i18n="audioTitle">音量を整える</span></span><label class="check"><input id="normalize" type="checkbox" checked><span data-i18n="auto">自動</span></label></div>
+        <label class="check leveling-option"><input id="leveling" type="checkbox" checked><span data-i18n="leveling">レベリング（区間ごとの音量差をならす）</span></label>
+        <label class="select-row"><span data-i18n="target">目標ラウドネス</span><select id="target"><option value="-14">−14 LUFS</option><option value="-13">−13 LUFS</option><option value="-12">−12 LUFS</option></select></label>
+        <div class="loudness-stats"><div><span data-i18n="before">補正前</span><strong id="before-lufs">—</strong><small>LUFS</small></div><span class="arrow">→</span><div><span data-i18n="after">補正後</span><strong id="after-lufs">—</strong><small>LUFS</small></div></div>
+        <button id="analyze" class="secondary full" data-i18n="analyze" disabled>解析して補正後の波形を表示</button>
+        <p class="micro" id="audio-note" data-i18n="audioHint">残す区間全体を測定し、飛び出すピークを抑えます。</p>
+        <div class="ab-buttons"><button id="listen-before" data-i18n="listenBefore" disabled>補正前を試聴</button><button id="listen-after" data-i18n="listenAfter" disabled>補正後を試聴</button></div>
+        <audio id="audition" controls hidden></audio>
+      </section>
+      <section class="panel export-panel">
+        <div class="panel-heading"><span><b class="step">03</b><span data-i18n="exportTitle">MP4を書き出す</span></span></div>
+        <label class="select-row"><span data-i18n="outputMode">出力方式</span><select id="output-mode"><option value="copy" data-i18n="copyMode">映像無劣化（推奨）</option><option value="encode" data-i18n="encodeMode">再圧縮</option></select></label>
+        <p class="micro" id="mode-hint"></p>
+        <div id="video-settings" hidden>
+          <div class="export-options"><label><span data-i18n="resolution">解像度</span><select id="resolution"><option value="source" data-i18n="originalSize">元の解像度</option><option value="1080">1080p</option><option value="720">720p</option></select></label><label><span data-i18n="quality">画質</span><select id="quality"><option value="custom" selected data-i18n="custom">ビットレート指定</option><option value="high" data-i18n="high">高画質</option><option value="standard" data-i18n="standard">標準</option><option value="small" data-i18n="small">容量優先</option></select></label></div>
+          <label class="select-row"><span data-i18n="videoBitrate">映像ビットレート</span><span class="number-unit"><input id="video-bitrate" type="number" min="25" max="50000" step="1" value="250" list="video-rates" aria-label="映像ビットレート kbps"><span>kbps</span></span></label>
+          <datalist id="video-rates"><option value="25"><option value="50"><option value="100"><option value="140"><option value="200"><option value="250"><option value="500"><option value="1000"><option value="2000"><option value="4000"><option value="8000"></datalist>
+          <button id="match-source" class="text-button" data-i18n="matchSource" disabled>元の容量に近いビットレートにする</button>
+          <p class="micro" id="source-rate"></p>
+          <label class="select-row"><span data-i18n="fps">フレームレート</span><select id="fps"><option value="30">30 fps</option><option value="25" selected>25 fps</option><option value="15">15 fps</option><option value="10">10 fps</option></select></label>
+        </div>
+        <label class="select-row"><span data-i18n="audioBitrate">音声ビットレート</span><select id="audio-bitrate"><option value="32">32 kbps</option><option value="48">48 kbps</option><option value="64">64 kbps</option><option value="80" selected>80 kbps</option><option value="96">96 kbps</option><option value="128">128 kbps</option><option value="160">160 kbps</option><option value="192">192 kbps</option><option value="256">256 kbps</option></select></label>
+        <p class="micro" id="export-estimate">H.264 + AAC</p><button id="export" class="primary full large" data-i18n="export" disabled>MP4を書き出す</button>
+        <button id="export-trial" class="secondary full trial-button" data-i18n="trialExport" disabled>現在位置付近を約30秒お試し出力</button>
+        <p class="micro" id="trial-range"></p><p class="micro" data-i18n="trialHint">開始を前・終了を後のキーフレームへ広げるため、30秒を超える場合があります。本番と同じ音量補正を使います。</p>
+      </section>
+    </aside>
+  </div>
+
+  <footer><span>Simple Meeting Video Editor 1.0.0 · <span data-i18n="browserHint">デスクトップChrome / Edge向け</span></span><span><a id="user-guide" href="USER_GUIDE.html#ja" target="_blank" data-i18n="guide">使い方</a> · <a href="lib/THIRD_PARTY_NOTICES.md" target="_blank" data-i18n="licenses">ライセンス</a></span></footer>
+</main>
+<input id="project-file" type="file" accept="application/json,.json" hidden>
+<script src="lib/browser-media-io.js"></script><script src="core.js"></script><script src="engine.js"></script><script src="app.js"></script>
+</body></html>

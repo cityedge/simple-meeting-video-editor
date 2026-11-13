@@ -1,0 +1,8 @@
+{
+  "library": "Browser Media I/O",
+  "version": "0.7.0",
+  "modified": false,
+  "release": "https://github.com/cityedge/browser-media-i-o/releases/tag/v0.7.0",
+  "browser_zip_sha256": "725e59534fd6b68a7fa007a408c86dcfef42d50107a330c62372a423156f57a4",
+  "browser_js_sha256": "e963dde26d83b4beae2420a41f7824939f6ec9b3cd0ca7c656d1cbba7db52eec"
+}

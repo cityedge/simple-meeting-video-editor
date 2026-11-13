@@ -1,0 +1,15 @@
+{
+  "name": "simple-meeting-video-editor",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "description": "Local-first meeting recording trimmer",
+  "scripts": {
+    "test": "node --test tests/core.test.cjs tests/copy-core.test.cjs tests/engine.test.cjs tests/aac-fallback.test.cjs tests/copy-library.test.cjs",
+    "test:dom": "node tests/dom.test.cjs && node tests/copy-dom.test.cjs",
+    "test:integration": "node tests/outward-integration.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "31.0.0"
+  }
+}

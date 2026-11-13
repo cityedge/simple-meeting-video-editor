@@ -1,0 +1,22 @@
+{
+  "app": "Meeting Cut 0.3.1",
+  "bundle": "Browser Media I/O 0.6.0 + local compatibility extension",
+  "conservative_rejection": {
+    "reason": "Frame number gaps are not supported.",
+    "input": "valid SPS allowance without actual gaps, 4s closed GOP",
+    "output_seconds": 3,
+    "packet_payload_hashes_match": 45,
+    "decoded_frame_hashes_match": 45,
+    "decoder_warnings": ""
+  },
+  "open_gop": {
+    "input_seconds": 8,
+    "output_seconds": 4,
+    "packets": 119,
+    "packet_dts_monotonic": true,
+    "decoder_warnings": "[h264 @ 0x5633d06974c0] mmco: unref short failure\n    Last message repeated 2 times\n[h264 @ 0x5633d069b080] illegal short term buffer state detected\n[h264 @ 0x5633d0710600] mmco: unref short failure\n",
+    "caution": "Forced-copy completion does not guarantee artifact-free playback. References cross cuts."
+  },
+  "real_zoom_file": "not available; untested",
+  "actual_browser_aac": "not executed in this environment"
+}

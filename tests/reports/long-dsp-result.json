@@ -1,0 +1,23 @@
+{
+  "durationSeconds": 7200,
+  "sampleRate": 48000,
+  "channels": 2,
+  "inputSamplesPerChannel": 345600000,
+  "outputSamplesPerChannel": 345600000,
+  "elapsedSeconds": 36.875982959,
+  "waveformBytes": 5760008,
+  "loudnessBlocks": 71997,
+  "maxSampledJsHeapBytes": 9386864,
+  "finalMemory": {
+    "rss": 123322368,
+    "heapTotal": 16658432,
+    "heapUsed": 8335688,
+    "external": 70316674,
+    "arrayBuffers": 66526811
+  },
+  "measurement": {
+    "lufs": -6.89104951685341,
+    "peak": 0.39810702204704285,
+    "samples": 345600000
+  }
+}
