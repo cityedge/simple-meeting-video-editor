@@ -1,8 +1,8 @@
 # Simple Meeting Video Editor
 
-**v1.0.0 · 会議録画を、見やすく、聞きやすく。**
+**v1.0.1 · 会議録画を、見やすく、聞きやすく。**
 
-[English](README.en.md) · [操作マニュアル](USER_GUIDE.html) · [変更履歴](CHANGELOG.md)
+[English](README.en.md) · [操作マニュアル](USER_GUIDE.md) · [変更履歴](CHANGELOG.md)
 
 Zoomなどの会議MP4から冒頭・末尾・休憩を取り除き、音量を整えて配布用MP4を作るブラウザアプリです。
 **標準の「映像無劣化」は元の圧縮映像をそのまま使い、音声だけを処理します。**
@@ -12,7 +12,7 @@ Zoomなどの会議MP4から冒頭・末尾・休憩を取り除き、音量を�
 
 ## はじめる
 
-1. Releasesから **Simple_Meeting_Video_Editor_v1.0.0.zip** をダウンロードします。
+1. Releasesから **Simple_Meeting_Video_Editor_v1.0.1.zip** をダウンロードします。
 2. ZIPを**すべて展開**します。
 3. 展開先の `simple-meeting-video-editor/index.html` をデスクトップ版ChromeまたはEdgeで開きます。
 
@@ -29,7 +29,9 @@ Zoomなどの会議MP4から冒頭・末尾・休憩を取り除き、音量を�
 5. **お試し出力**：確認したい位置へ移動して短いMP4を書き出します。
 6. **全体を書き出す**：音声ビットレートを選び、「MP4を書き出す」を押します。
 
-詳しい操作は画面下の「使い方」、または同梱の **[USER_GUIDE.html](USER_GUIDE.html)** をブラウザで開いて確認してください。
+GitHubでは **[日本語の操作マニュアル](USER_GUIDE.md)** をそのまま読めます。
+アプリを使っているときは画面下の「使い方」を開いてください。ローカルでは同梱の `USER_GUIDE.html` もブラウザで読めます。
+GitHubのファイル一覧からHTMLを開くとソースが表示されるため、リポジトリ内ではMarkdown版をご利用ください。
 
 ## 主な機能
 
@@ -63,9 +65,11 @@ Zoomなどの会議MP4から冒頭・末尾・休憩を取り除き、音量を�
 
 | ファイル | 用途 |
 |---|---|
-| [USER_GUIDE.html](USER_GUIDE.html) | 日本語・英語の操作マニュアル。ブラウザで開く |
+| [USER_GUIDE.md](USER_GUIDE.md) | GitHub上で読める日本語の操作マニュアル |
+| [USER_GUIDE.en.md](USER_GUIDE.en.md) | GitHub上で読める英語の操作マニュアル |
+| `USER_GUIDE.html` | アプリ内・ローカル・GitHub Pagesで読む日英HTML版 |
 | [PUBLISHING.md](PUBLISHING.md) | GitHubへの手動アップロード、Pages公開、Release配布 |
-| [RELEASE_NOTES_v1.0.0.md](RELEASE_NOTES_v1.0.0.md) | GitHub Releaseの説明欄に使える本文 |
+| [RELEASE_NOTES_v1.0.1.md](RELEASE_NOTES_v1.0.1.md) | GitHub Releaseの説明欄に使える本文 |
 | [CHANGELOG.md](CHANGELOG.md) | 変更履歴 |
 | [CODEX_HANDOFF.md](CODEX_HANDOFF.md) | 開発構成・設計・引き継ぎ |
 | [VALIDATION.md](VALIDATION.md) | 実施した検証と対象範囲 |

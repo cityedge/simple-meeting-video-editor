@@ -1,4 +1,4 @@
-# Simple Meeting Video Editor 1.0.0 — Codex引き継ぎ
+# Simple Meeting Video Editor 1.0.1 — Codex引き継ぎ
 
 ## 合意済みの用途と優先事項
 
@@ -59,9 +59,10 @@ SPS gap許可フラグだけの素材は公式0.7.0の通常検査を通り、�
 
 ## 1.0.0の公開構成
 
-README.md / README.en.mdが利用者向け入口。USER_GUIDE.htmlはローカルでも読める日英マニュアル。
-PUBLISHING.mdは手動アップロード・Pages・Release作成の手順。RELEASE_NOTES_v1.0.0.mdはRelease本文用。
-バージョンは画面・package.json・文書で1.0.0。編集JSONのschemaは3を維持（アプリ版とは別）。
+README.md / README.en.mdが利用者向け入口。USER_GUIDE.md / USER_GUIDE.en.mdはGitHubで読むMarkdown版。USER_GUIDE.htmlはアプリ内・ローカル用の日英マニュアル。
+READMEのリンクはMarkdown版へ、app.jsの使い方リンクはHTML版へ向ける。ガイド修正時は両形式を同期する。
+PUBLISHING.mdは手動アップロード・Pages・Release作成の手順。RELEASE_NOTES_v1.0.1.mdは今回のRelease本文用。
+バージョンは画面・package.json・文書で1.0.1。編集JSONのschemaは3を維持（アプリ版とは別）。
 
 ## 処理の実装
 

@@ -1,8 +1,8 @@
 # Simple Meeting Video Editor
 
-**v1.0.0 · Trim meeting recordings and make speech easier to hear.**
+**v1.0.1 · Trim meeting recordings and make speech easier to hear.**
 
-[日本語](README.md) · [User manual](USER_GUIDE.html#en) · [Changelog](CHANGELOG.md)
+[日本語](README.md) · [User manual](USER_GUIDE.en.md) · [Changelog](CHANGELOG.md)
 
 A browser application for removing unwanted openings, endings and breaks from meeting MP4s, balancing audio and exporting a shareable MP4.
 **Video copy is the default: compressed video is preserved and only audio is processed.**
@@ -12,7 +12,7 @@ Japanese and English dark UI. Selected recordings are processed on your device a
 
 ## Get started
 
-1. Download **Simple_Meeting_Video_Editor_v1.0.0.zip** from Releases.
+1. Download **Simple_Meeting_Video_Editor_v1.0.1.zip** from Releases.
 2. **Extract the entire ZIP.**
 3. Open `simple-meeting-video-editor/index.html` in desktop Chrome or Edge.
 
@@ -29,7 +29,9 @@ The same files can be hosted on GitHub Pages. Once the application is loaded, pr
 5. Move to a section you want to check and export a short sample.
 6. Choose an audio bitrate and export the full MP4.
 
-Open **[USER_GUIDE.html](USER_GUIDE.html#en)** in your browser, or use the Guide link at the bottom of the app, for the complete manual.
+Read the complete **[English user manual](USER_GUIDE.en.md)** directly on GitHub.
+In the app, use the Guide link; locally, open the bundled `USER_GUIDE.html` in a browser.
+GitHub’s repository file view shows HTML source, so the repository links use the Markdown edition.
 
 ## Features
 
@@ -61,9 +63,11 @@ Displayed LUFS is measured before AAC encoding, and the limiter does not guarant
 
 ## Documentation
 
-- [USER_GUIDE.html](USER_GUIDE.html#en): complete Japanese/English manual; open it in a browser.
+- [USER_GUIDE.en.md](USER_GUIDE.en.md): complete English manual, readable on GitHub.
+- [USER_GUIDE.md](USER_GUIDE.md): Japanese Markdown manual.
+- `USER_GUIDE.html`: Japanese/English HTML manual for the app, local use and GitHub Pages.
 - [PUBLISHING.md](PUBLISHING.md): manual GitHub upload, Pages and Release instructions (Japanese).
-- [RELEASE_NOTES_v1.0.0.md](RELEASE_NOTES_v1.0.0.md): ready-to-use Japanese/English release description.
+- [RELEASE_NOTES_v1.0.1.md](RELEASE_NOTES_v1.0.1.md): ready-to-use Japanese/English release description.
 - [CHANGELOG.md](CHANGELOG.md): version history.
 - [CODEX_HANDOFF.md](CODEX_HANDOFF.md): architecture and development handoff.
 - [VALIDATION.md](VALIDATION.md): completed checks and their scope.

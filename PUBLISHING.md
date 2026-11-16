@@ -1,4 +1,4 @@
-# v1.0.0 手動公開ガイド
+# v1.0.1 手動公開ガイド
 
 この手順は、GitHubのWeb画面から手動でアップロードする場合のものです。
 Git・Node.js・ビルド環境は不要です。公開するファイルと、利用者へ配るファイルは同じです。
@@ -6,7 +6,7 @@ Git・Node.js・ビルド環境は不要です。公開するファイルと、�
 
 ## 1. 公開するファイルを準備する
 
-`Simple_Meeting_Video_Editor_v1.0.0.zip` をすべて展開します。
+`Simple_Meeting_Video_Editor_v1.0.1.zip` をすべて展開します。
 中の `simple-meeting-video-editor` フォルダーを開き、`index.html` があることを確認します。
 
 **リポジトリ直下へ置くのは、このフォルダーの「中身」です。**
@@ -17,12 +17,21 @@ ZIPそのものや外側のフォルダーだけを置くと、直下にアプ�
 | `index.html` | アプリの入口 |
 | `app.js`・`core.js`・`engine.js`・`style.css` | アプリ本体 |
 | `lib/` | Browser Media I/O本体、ライセンス、対応ソース案内。フォルダーごと保持 |
-| `USER_GUIDE.html` | 日本語・英語の操作マニュアル |
+| `USER_GUIDE.md`・`USER_GUIDE.en.md` | GitHub上で読める日英の操作マニュアル |
+| `USER_GUIDE.html` | アプリ内・ローカル・Pagesで読む日英HTML版 |
 | `README.md`・`README.en.md` | GitHubに表示する紹介 |
 | `LICENSE`・`CHANGELOG.md`・その他のMD | ライセンス・履歴・公開／開発資料 |
 | `tests/`・`package.json` | 開発・検証用。配布に含めて構わない。テスト動画は合成素材 |
 | `.nojekyll` | 静的ファイルをそのまま配信するためのファイル |
 | `SHA256SUMS` | パッケージ内ファイルの整合性確認用 |
+
+## ガイドの開き方
+
+GitHubのファイル一覧やREADMEからは、Markdown版 `USER_GUIDE.md` / `USER_GUIDE.en.md` を開きます。
+GitHubのHTMLファイル閲覧画面はソース表示なので、通常のガイドリンクに `USER_GUIDE.html` を使わないでください。
+アプリ内の「使い方」はHTML版を開きます。ダウンロード後のローカル利用でもHTML版を使えます。
+Pagesを有効にした場合は、アプリの公開URL末尾に `USER_GUIDE.html#ja` または `USER_GUIDE.html#en` を付けても開けます。
+これはGitHubの `blob/main/USER_GUIDE.html` 画面とは別のURLです。
 
 ## 2. リポジトリへ手動アップロードする
 
@@ -30,7 +39,7 @@ ZIPそのものや外側のフォルダーだけを置くと、直下にアプ�
 2. 空のリポジトリなら **uploading an existing file**、既存リポジトリなら **Add file → Upload files** を開きます。
 3. 展開したフォルダーの中身をまとめてドラッグします。`lib` と `tests` はフォルダー構造ごとアップロードします。
 4. `index.html` が直下、ライブラリが `lib/browser-media-io.js` になることを確認します。
-5. コミットメッセージ例を `Release v1.0.0` とし、`main` へコミットします。
+5. コミットメッセージ例を `Release v1.0.1` とし、`main` へコミットします。
 
 GitHubのブラウザアップロードは1ファイル25 MiBまで、同時に100ファイルまでです。本パッケージはその範囲に収まります。
 画面の表記は更新される場合があります。[公式アップロード手順](https://docs.github.com/en/repositories/working-with-files/managing-files/adding-a-file-to-a-repository)
@@ -62,10 +71,10 @@ GitHubのブラウザアップロードは1ファイル25 MiBまで、同時に1
 ## 4. ダウンロード用Releaseを作る
 
 1. リポジトリの **Releases → Draft a new release** を開きます。
-2. タグを **v1.0.0**、対象をアップロード済みの `main` にします。
-3. タイトルを **Simple Meeting Video Editor v1.0.0** にします。
-4. 同梱の [RELEASE_NOTES_v1.0.0.md](RELEASE_NOTES_v1.0.0.md) の本文を説明欄へ貼り付けます。
-5. **Simple_Meeting_Video_Editor_v1.0.0.zip** を添付します。
+2. タグを **v1.0.1**、対象をアップロード済みの `main` にします。
+3. タイトルを **Simple Meeting Video Editor v1.0.1** にします。
+4. 同梱の [RELEASE_NOTES_v1.0.1.md](RELEASE_NOTES_v1.0.1.md) の本文を説明欄へ貼り付けます。
+5. **Simple_Meeting_Video_Editor_v1.0.1.zip** を添付します。
 6. 正式版なのでPre-releaseにはせず、添付完了を確認して公開します。
 
 [公式Release作成手順](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
@@ -78,7 +87,7 @@ GitHubのブラウザアップロードは1ファイル25 MiBまで、同時に1
 
 本版をそのまま公開する場合は、今回の配布ZIPをそのまま添付できます。
 同じ内容を圧縮し直すだけなら、展開後の `simple-meeting-video-editor` フォルダー自体をWindowsの「ZIPファイルに圧縮」で圧縮し、
-ファイル名を `Simple_Meeting_Video_Editor_v1.0.0.zip` としてください。
+ファイル名を `Simple_Meeting_Video_Editor_v1.0.1.zip` としてください。
 ZIPを開いたとき、一段目が `simple-meeting-video-editor/`、その中に `index.html` がある形です。
 
 ファイルを修正して新しい版を作る場合は、画面・package.json・README・マニュアル・変更履歴の版を揃え、
@@ -88,10 +97,10 @@ ZIPを開いたとき、一段目が `simple-meeting-video-editor/`、その中�
 ## 公開後の確認
 
 - 公開URLと、Releaseからダウンロード・全体展開したローカル版の両方で起動する。
-- 画面の版がv1.0.0になっており、日本語／英語を切り替えられる。
+- 画面の版がv1.0.1になっており、日本語／英語を切り替えられる。
 - 映像無劣化では映像設定が隠れ、再圧縮では再表示される。
 - 波形での削除指定、補正後の試聴、お試し出力、全体出力、設定JSONの保存・再開を確認する。
-- 画面下の「使い方」が開く。上部ステータスが見え、左右が一緒にスクロールする。
+- READMEからMarkdown版のガイドが表示される。画面下の「使い方」はHTML版を開く。上部ステータスが見え、左右が一緒にスクロールする。
 - 実際に配布するMP4の先頭・カット境界・末尾を再生して確認する。
 
 公開側の設定に迷ったら、まずリポジトリ直下の `index.html` と `lib/browser-media-io.js`、Pagesのブランチ／フォルダーを確認します。
